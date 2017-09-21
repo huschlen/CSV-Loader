@@ -114,11 +114,13 @@ public class Roster implements CommandLineRunner {
                         e.printStackTrace();
                     }
                     if(objToLoad != null) {
-                        validInput = true;
-                        if(booleanCleanImport == true)
-                            load(objToLoad.get(0), objToLoad.get(1), objToLoad.get(2), "A");
-                        else
-                            load(objToLoad.get(0), objToLoad.get(1), objToLoad.get(2), record.get("Action"));
+                        if(objToLoad.get(0).isPresent() && objToLoad.get(1).isPresent() && objToLoad.get(2).isPresent()) {
+                            validInput = true;
+                            if(booleanCleanImport == true)
+                                load(objToLoad.get(0), objToLoad.get(1), objToLoad.get(2), "A");
+                            else
+                                load(objToLoad.get(0), objToLoad.get(1), objToLoad.get(2), record.get("Action"));
+                        }
                     }
                 });
             } catch(Exception e){
@@ -188,7 +190,8 @@ public class Roster implements CommandLineRunner {
         validStudentId = checkStudentId(studentId);
         validName = checkName(studentFirstName, studentLastName);
         
-        student.setId(Integer.parseInt(studentId));
+        if(validStudentId)
+            student.setId(Integer.parseInt(studentId));
         student.setStateId(state);
         student.setFirstName(studentFirstName);
         student.setLastName(studentLastName);
@@ -231,7 +234,7 @@ public class Roster implements CommandLineRunner {
     
     private boolean checkStudentId(String studentId) {
         boolean valid = true;
-        if(studentId.length() > 24) {
+        if(studentId.contains("E") || (studentId.length() > 24)) {
             valid = false;
         }
         return valid;
