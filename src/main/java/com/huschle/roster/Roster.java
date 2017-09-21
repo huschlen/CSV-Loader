@@ -266,7 +266,7 @@ public class Roster implements CommandLineRunner {
     }
     
     private void load(Object student, Object teacher, Object enrollment, String action) {
-        numOfRecordProcessed = numOfRecordProcessed++;
+        numOfRecordProcessed++;
         if(action.equalsIgnoreCase("A")) {
             studentService.addStudent((Student)student);
             teacherService.addTeacher((Teacher)teacher);
