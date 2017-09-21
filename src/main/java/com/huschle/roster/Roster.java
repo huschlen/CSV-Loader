@@ -81,7 +81,7 @@ public class Roster implements CommandLineRunner {
             try {
                 parser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader());
                 parser.forEach(record -> {
-                    List<Object> objToLoad = null;
+                    List<Optional<Object>> objToLoad = null;
                     try {
                         objToLoad = getObjToLoad(
                         record.get("StudentID"),
@@ -151,7 +151,7 @@ public class Roster implements CommandLineRunner {
         }*/
     }
     
-    private List<Object> getObjToLoad(
+    private List<Optional<Object>> getObjToLoad(
         String studentId,
         String state,
         String studentFirstName,
@@ -179,7 +179,7 @@ public class Roster implements CommandLineRunner {
         String course,
         String section) throws ParseException {
 
-        List<Object> objList = new ArrayList<Object>();
+        List<Optional<Object>> objList = new ArrayList<Optional<Object>>();
         boolean validStudentId;
         boolean validName;
         Student student = new Student();
@@ -223,9 +223,9 @@ public class Roster implements CommandLineRunner {
             teacher = null;
             enrollment = null;
         }
-        objList.add(0, student);
-        objList.add(1, teacher);
-        objList.add(2, enrollment);      
+        objList.add(0, Optional.ofNullable(student));
+        objList.add(1, Optional.ofNullable(teacher));
+        objList.add(2, Optional.ofNullable(enrollment));      
         return objList;       
     }
     
@@ -265,16 +265,16 @@ public class Roster implements CommandLineRunner {
         return df.parse(stringDate);
     }
     
-    private void load(Object student, Object teacher, Object enrollment, String action) {
+    private void load(Optional<Object> student, Optional<Object> teacher, Optional<Object> enrollment, String action) {
         numOfRecordProcessed++;
         if(action.equalsIgnoreCase("A")) {
-            studentService.addStudent((Student)student);
-            teacherService.addTeacher((Teacher)teacher);
-            enrollmentService.addEnrollment((Enrollment)enrollment);
+            studentService.addStudent((Student)student.get());
+            teacherService.addTeacher((Teacher)teacher.get());
+            enrollmentService.addEnrollment((Enrollment)enrollment.get());
         }       
         if(action.equalsIgnoreCase("D")) {
-            studentService.deleteStudent((Student)student);
-            enrollmentService.deleteEnrollment((Enrollment)enrollment);
+            studentService.deleteStudent((Student)student.get());
+            enrollmentService.deleteEnrollment((Enrollment)enrollment.get());
         }    
     }
 
