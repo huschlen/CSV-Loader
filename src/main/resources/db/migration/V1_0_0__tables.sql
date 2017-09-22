@@ -39,6 +39,6 @@ create table enrollment (
     course varchar(64),
     section varchar(16),
     UNIQUE (student_id, teacher_id),
-    FOREIGN KEY (student_id) REFERENCES student (id),
-    FOREIGN KEY (teacher_id) REFERENCES teacher (id)
+    FOREIGN KEY (student_id) REFERENCES student (id)
+    ON DELETE CASCADE
 );
