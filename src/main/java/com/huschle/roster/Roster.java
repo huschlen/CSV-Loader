@@ -276,7 +276,6 @@ public class Roster implements CommandLineRunner {
             enrollmentService.addEnrollment((Enrollment)enrollment.get());
         }       
         if(action.equalsIgnoreCase("D")) {
-            studentService.deleteStudent((Student)student.get());
             enrollmentService.deleteEnrollment((Enrollment)enrollment.get());
         }    
     }
