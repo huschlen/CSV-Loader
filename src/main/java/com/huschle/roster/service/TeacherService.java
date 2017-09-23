@@ -18,6 +18,11 @@ public class TeacherService implements ITeacherService {
     }
     
     @Override
+    public Teacher getTeacherById(int teacherId) {
+        return teacherDao.getTeacherById(teacherId);
+    }
+    
+    @Override
     public void setTeacherDao(ITeacherDao dao) {
         this.teacherDao = dao;
     }

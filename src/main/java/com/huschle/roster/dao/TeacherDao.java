@@ -18,5 +18,10 @@ public class TeacherDao implements ITeacherDao {
     public void addTeacher(Teacher teacher) {
         hibernateTemplate.saveOrUpdate(teacher);
     }
+    
+    @Override
+    public Teacher getTeacherById(int teacherId) {
+        return hibernateTemplate.get(Teacher.class, teacherId);
+    }
 
 }
