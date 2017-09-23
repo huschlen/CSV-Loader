@@ -36,7 +36,7 @@ public class EnrollmentDao extends HibernateDaoSupport implements IEnrollmentDao
     @SuppressWarnings("unchecked")
     @Override
     public List<Object[]> getEnrollmentInfo() {
-        String query = "select teacher, count(student) from Enrollment group by(teacher_id)";
+        String query = "select e.teacher, count(e.student) from Enrollment e group by(teacher_id)";
         return (List<Object[]>) getHibernateTemplate().find(query);
         
     }

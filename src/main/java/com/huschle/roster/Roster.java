@@ -136,7 +136,7 @@ public class Roster implements CommandLineRunner {
     }
 
     private void printResult() {
-        //List<Object[]> list = enrollmentService.getEnrollmentInfo();
+        List<Object[]> list = enrollmentService.getEnrollmentInfo();
         String teacherFirstName;
         String teacherLastName;
         if(!validInput) {
@@ -144,13 +144,13 @@ public class Roster implements CommandLineRunner {
             System.out.println("Those rows are not loaded to the database.");
         }
         System.out.println("Number of record processed: " + numOfRecordProcessed);
-        /*for(int i=0; i<list.size(); i++) {
+        for(int i=0; i<list.size(); i++) {
             Object[] row = (Object[])list.get(i);
             System.out.println(
                 ((Teacher)row[0]).getFirstName() + " "
                 + ((Teacher)row[0]).getLastName()
                 + ": " + row[1]);
-        }*/
+        }
     }
     
     private List<Optional<Object>> getObjToLoad(
