@@ -8,6 +8,6 @@ public interface IEnrollmentDao {
 
     void addEnrollment(Enrollment enrollment);
     void deleteEnrollment(Enrollment enrollment);
-    //List<Object[]> getEnrollmentInfo();
+    List<Object[]> getEnrollmentInfo();
 
 }

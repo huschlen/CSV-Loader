@@ -24,10 +24,10 @@ public class EnrollmentService implements IEnrollmentService {
       enrollmentDao.deleteEnrollment(enrollment);
   }
 
-  /*@Override
+  @Override
   public List<Object[]> getEnrollmentInfo() {
       return enrollmentDao.getEnrollmentInfo();
-  }*/
+  }
   
   @Override
   public void setEnrollmentDao(IEnrollmentDao dao) {

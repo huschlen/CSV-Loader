@@ -9,7 +9,7 @@ public interface IEnrollmentService {
 
     void addEnrollment(Enrollment enrollment);
     void deleteEnrollment(Enrollment enrollment);
-    //List<Object[]> getEnrollmentInfo();
+    List<Object[]> getEnrollmentInfo();
     void setEnrollmentDao(IEnrollmentDao enrollmentDao);
 
 }
