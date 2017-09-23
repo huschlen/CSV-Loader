@@ -16,6 +16,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "enrollment")
@@ -23,6 +24,7 @@ import lombok.EqualsAndHashCode;
 @Getter
 @Setter
 @EqualsAndHashCode
+@NoArgsConstructor
 public class Enrollment implements Serializable {
 
     private static final long serialVersionUID = -5489637103045994185L;
@@ -52,9 +54,6 @@ public class Enrollment implements Serializable {
     public Enrollment(Student s, Teacher t) {
         this.student = s;
         this.teacher = t;
-    }
-    
-    public Enrollment() {
     }
 
 }
