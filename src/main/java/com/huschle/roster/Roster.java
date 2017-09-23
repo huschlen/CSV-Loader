@@ -144,7 +144,7 @@ public class Roster implements CommandLineRunner {
             System.out.println("Those rows are not loaded to the database.");
         }
         System.out.println("Number of record processed: " + numOfRecordProcessed);
-        /*for(int i=0; i<list.size(); i++){
+        /*for(int i=0; i<list.size(); i++) {
             Object[] row = (Object[])list.get(i);
             System.out.println(
                 ((Teacher)row[0]).getFirstName() + " "
@@ -278,7 +278,7 @@ public class Roster implements CommandLineRunner {
         if(action.equalsIgnoreCase("D")) {
             enrollmentService.deleteEnrollment((Enrollment)enrollment.get());
             studentService.deleteStudent((Student)student.get());
-        }    
+        }
     }
 
 }
