@@ -42,8 +42,9 @@ import com.huschle.roster.service.ITeacherService;
 public class Roster implements CommandLineRunner {
 
     private static long numOfRecordProcessed = 0;
-    private static boolean validInput = false;
-    private static boolean goodFormat = true;
+    private static boolean hasAllValidStudentIds = true;
+    private static boolean hasAllValidNames = true;
+    private static boolean goodHeader = true;
     
     @Autowired
     private IStudentService studentService;
@@ -111,14 +112,12 @@ public class Roster implements CommandLineRunner {
                         record.get("Grade"),
                         record.get("Course"),
                         record.get("Section"));
-                    } catch (IllegalStateException e) {
-                        goodFormat = false;
-                    } catch (ParseException e) {
+                    }
+                    catch (ParseException e) {
                         e.printStackTrace();
                     }
                     if(objToLoad != null) {
                         if(objToLoad.get(0).isPresent() && objToLoad.get(1).isPresent() && objToLoad.get(2).isPresent()) {
-                            validInput = true;
                             if(booleanCleanImport == true)
                                 load(objToLoad.get(0), objToLoad.get(1), objToLoad.get(2), "A");
                             else
@@ -127,6 +126,7 @@ public class Roster implements CommandLineRunner {
                     }
                 });
             } catch(Exception e){
+                goodHeader = false;
                 System.out.println("Error parsing a file.");
             } finally {
                 parser.close();
@@ -142,12 +142,18 @@ public class Roster implements CommandLineRunner {
         List<Object[]> list = enrollmentService.getEnrollmentInfo();
         String teacherFirstName;
         String teacherLastName;
-        if(!validInput && goodFormat) {
-            System.out.println("This file includes students with invalid student ID or invalid name.");
-            System.out.println("Those rows are not loaded to the database.");
-        }
-        if(goodFormat == false) {
+        if(!goodHeader) {
             System.out.println("This cvs file may not have a well-formatted header.");;
+        }
+        else {
+            if(!hasAllValidStudentIds) {
+                System.out.println("This file includes students with invalid student ID.");
+                System.out.println("Those rows are not loaded to the database.");
+            }
+            else if(!hasAllValidNames) {
+                System.out.println("This file includes students with invalid name.");
+                System.out.println("Those rows are not loaded to the database.");
+            }
         }
         System.out.println("Number of record processed: " + numOfRecordProcessed);
         for(int i=0; i<list.size(); i++) {
@@ -188,13 +194,17 @@ public class Roster implements CommandLineRunner {
         String section) throws ParseException {
 
         List<Optional<Object>> objList = new ArrayList<Optional<Object>>();
-        boolean validStudentId;
-        boolean validName;
+        boolean validStudentId = true;
+        boolean validName = true;
         Student student = new Student();
         Teacher teacher = new Teacher();
         
         validStudentId = checkStudentId(studentId);
         validName = checkName(studentFirstName, studentLastName);
+        if(!validStudentId)
+            hasAllValidStudentIds = validStudentId;
+        if(!validName)
+            hasAllValidNames = validName;
         
         if(validStudentId)
             student.setId(Integer.parseInt(studentId));
