@@ -43,6 +43,7 @@ public class Roster implements CommandLineRunner {
 
     private static long numOfRecordProcessed = 0;
     private static boolean validInput = false;
+    private static boolean goodFormat = true;
     
     @Autowired
     private IStudentService studentService;
@@ -110,6 +111,8 @@ public class Roster implements CommandLineRunner {
                         record.get("Grade"),
                         record.get("Course"),
                         record.get("Section"));
+                    } catch (IllegalStateException e) {
+                        goodFormat = false;
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -124,7 +127,7 @@ public class Roster implements CommandLineRunner {
                     }
                 });
             } catch(Exception e){
-                e.printStackTrace();
+                System.out.println("Error parsing a file.");
             } finally {
                 parser.close();
                 reader.close();
@@ -139,9 +142,12 @@ public class Roster implements CommandLineRunner {
         List<Object[]> list = enrollmentService.getEnrollmentInfo();
         String teacherFirstName;
         String teacherLastName;
-        if(!validInput) {
+        if(!validInput && goodFormat) {
             System.out.println("This file includes students with invalid student ID or invalid name.");
             System.out.println("Those rows are not loaded to the database.");
+        }
+        if(goodFormat == false) {
+            System.out.println("This cvs file may not have a well-formatted header.");;
         }
         System.out.println("Number of record processed: " + numOfRecordProcessed);
         for(int i=0; i<list.size(); i++) {
