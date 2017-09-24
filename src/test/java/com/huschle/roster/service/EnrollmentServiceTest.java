@@ -2,6 +2,9 @@ package com.huschle.roster.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -48,11 +51,20 @@ public class EnrollmentServiceTest {
         Mockito.verify(enrollmentDao, Mockito.times(1)).deleteEnrollment(enrollment);
     }
     
-    //@Test
+    @Test
     public void testGetEnrollmentInfo() {
-        Student student = getTestStudent();
-        Teacher teacher = getTestTeacher();
-        Enrollment enrollment = new Enrollment(student, teacher);
+        Mockito.when(enrollmentDao.getEnrollmentInfo()).thenReturn(getExpectedEnrollment());
+        List<Object[]> resultList = enrollmentService.getEnrollmentInfo();
+        Mockito.verify(enrollmentDao, Mockito.times(1)).getEnrollmentInfo();
+        assertEquals(getExpectedEnrollment().get(0)[0], resultList.get(0)[0]);
+        
+    }
+    
+    private List<Object[]> getExpectedEnrollment() {
+        List<Object[]> expectedEnrollment = new ArrayList<Object[]>();
+        Object obj[] = {getTestTeacher(), new Integer("1")};
+        expectedEnrollment.add(0, obj);
+        return expectedEnrollment;
     }
     
     private Student getTestStudent() {
