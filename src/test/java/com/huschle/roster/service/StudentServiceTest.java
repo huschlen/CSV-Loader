@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -27,14 +26,14 @@ public class StudentServiceTest {
         studentService.setStudentDao(studentDao);
     }
     
-    //@Test
+    @Test
     public void testAddStudent() {
         Student student = getTestStudent();
-        Mockito.doNothing().when(studentService).addStudent(student);
+        studentService.addStudent(student);
         Mockito.verify(studentDao, Mockito.times(1)).addStudent(student);
     }
     
-    //@Test
+    @Test
     public void testDeleteStudent() {
         Student student = getTestStudent();
         studentService.deleteStudent(student);
@@ -44,7 +43,7 @@ public class StudentServiceTest {
     @Test
     public void testGetStudentById() {
         Student student = getTestStudent();
-        Mockito.when(studentService.getStudentById(student.getId())).thenReturn(student);
+        Mockito.when(studentDao.getStudentById(student.getId())).thenReturn(student);
         assertEquals(student, studentService.getStudentById(7777777));
     }
     

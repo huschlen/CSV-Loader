@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -27,19 +26,20 @@ public class EnrollmentServiceTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        enrollmentService = new EnrollmentService();
         enrollmentService.setEnrollmentDao(enrollmentDao);
     }
   
-    //@Test
+    @Test
     public void testAddEnrollment() {
         Student student = getTestStudent();
         Teacher teacher = getTestTeacher();
         Enrollment enrollment = new Enrollment(student, teacher);
-        Mockito.doNothing().when(enrollmentService).addEnrollment(enrollment);
+        enrollmentService.addEnrollment(enrollment);
         Mockito.verify(enrollmentDao, Mockito.times(1)).addEnrollment(enrollment);
     }
     
-    //@Test
+    @Test
     public void testDeleteEnrollment() {
         Student student = getTestStudent();
         Teacher teacher = getTestTeacher();
@@ -49,11 +49,11 @@ public class EnrollmentServiceTest {
     }
     
     //@Test
-    /*public void testGetEnrollmentInfo() {
+    public void testGetEnrollmentInfo() {
         Student student = getTestStudent();
         Teacher teacher = getTestTeacher();
         Enrollment enrollment = new Enrollment(student, teacher);
-    }*/
+    }
     
     private Student getTestStudent() {
         Student student = new Student();
